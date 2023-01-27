@@ -1,7 +1,8 @@
 # Exercism
 
-[exercism]: http://exercism.io
+- [exercism](http://exercism.io)
+- [code](https://github.com/exercism)
 
-[code]: https://github.com/exercism
+
 
 
