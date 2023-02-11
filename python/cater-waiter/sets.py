@@ -20,8 +20,7 @@ def clean_ingredients(dish_name, dish_ingredients):
     This function should return a `tuple` with the name of the dish as the first item,
     followed by the de-duped `set` of ingredients as the second item.
     """
-
-    pass
+    return (dish_name, set(dish_ingredients))
 
 
 def check_drinks(drink_name, drink_ingredients):
@@ -35,8 +34,10 @@ def check_drinks(drink_name, drink_ingredients):
     name followed by "Cocktail" (includes alcohol).
 
     """
+    if set(drink_ingredients).isdisjoint(ALCOHOLS):
+        return drink_name + ' Mocktail'
 
-    pass
+    return drink_name + ' Cocktail'
 
 
 def categorize_dish(dish_name, dish_ingredients):
@@ -51,9 +52,18 @@ def categorize_dish(dish_name, dish_ingredients):
     All dishes will "fit" into one of the categories imported from `sets_categories_data.py`
 
     """
-
-    pass
-
+    dish_set = set(dish_ingredients)
+    if dish_set.issubset(VEGAN):
+        return dish_name + ': VEGAN'
+    if dish_set.issubset(VEGETARIAN):
+        return dish_name + ': VEGETARIAN'
+    if dish_set.issubset(PALEO):
+        return dish_name + ': PALEO'
+    if dish_set.issubset(KETO):
+        return dish_name + ': KETO'
+    if dish_set.issubset(OMNIVORE):
+        return dish_name + ': OMNIVORE'
+    return ''
 
 def tag_special_ingredients(dish):
     """Compare `dish` ingredients to `SPECIAL_INGREDIENTS`.
@@ -66,8 +76,9 @@ def tag_special_ingredients(dish):
     SPECIAL_INGREDIENTS constant imported from `sets_categories_data.py`.
     """
 
-    pass
-
+    dish_name, dish_ingredients = dish
+    special = SPECIAL_INGREDIENTS.intersection(dish_ingredients)
+    return (dish_name, special)
 
 def compile_ingredients(dishes):
     """Create a master list of ingredients.
@@ -77,9 +88,10 @@ def compile_ingredients(dishes):
 
     This function should return a `set` of all ingredients from all listed dishes.
     """
-
-    pass
-
+    res = set()
+    for dish_set in dishes:
+        res = res.union(dish_set)
+    return res
 
 def separate_appetizers(dishes, appetizers):
     """Determine which `dishes` are designated `appetizers` and remove them.
@@ -91,8 +103,9 @@ def separate_appetizers(dishes, appetizers):
     The function should return the list of dish names with appetizer names removed.
     Either list could contain duplicates and may require de-duping.
     """
-
-    pass
+    dishes_set = set(dishes)
+    app_set = set(appetizers)
+    return dishes_set.difference(app_set)
 
 
 def singleton_ingredients(dishes, intersection):
@@ -109,5 +122,8 @@ def singleton_ingredients(dishes, intersection):
 
     The function should return a `set` of ingredients that only appear in a single dish.
     """
-
-    pass
+    res = set()
+    for dish in dishes:
+        unique = dish.difference(intersection)
+        res = res.union(unique)
+    return res
