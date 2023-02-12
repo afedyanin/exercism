@@ -1,2 +1,4 @@
 def reverse(text):
-    pass
+    """ Reverse string
+    """
+    return text[::-1]
